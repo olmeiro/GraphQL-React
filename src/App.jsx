@@ -1,9 +1,29 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
- 
+  useEffect(() => {
+    fetch("http://localhost:4000", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `
+        query {
+          allPersons {
+            name
+            phone
+            id
+          }
+        }
+      `,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.data);
+      });
+  });
 
   return (
     <div className="App">
@@ -12,7 +32,7 @@ function App() {
         <p>GraphQL + React!</p>
       </header>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
